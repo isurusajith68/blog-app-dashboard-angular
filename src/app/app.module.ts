@@ -4,24 +4,38 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AngularFireModule } from '@angular/fire/compat'
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HearderComponent } from './layouts/hearder/hearder.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { environment } from 'src/environments/environment.development';
+import { CategoriesComponent } from './categories/categories.component';
+import { PostComponent } from './post/post/post.component';
+import { AddPostComponent } from './post/add-post/add-post.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     HearderComponent,
     FooterComponent,
     DashboardComponent,
+    CategoriesComponent,
+    PostComponent,
+    AddPostComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    FormsModule,
+    BrowserAnimationsModule, 
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
