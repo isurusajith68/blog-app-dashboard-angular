@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Post } from 'src/app/model/post';
 import { CategoryService } from 'src/app/service/category.service';
+import { PostService } from 'src/app/service/post.service';
 
 @Component({
   selector: 'app-add-post',
@@ -17,14 +19,15 @@ export class AddPostComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private postService: PostService
   ) {
 
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
       permalink: ['', Validators.required],
-      excerpt: ['', [Validators.required, Validators.minLength(50)]],
-      category: ['', Validators.required],
+      excerpt: ['', [Validators.required, Validators.minLength(10)]],
+      category: [''],
       postImage: ['', Validators.required],
       content: ['', Validators.required]
     })
@@ -62,6 +65,26 @@ export class AddPostComponent implements OnInit {
 
 
 
+  FormSubmit() {
 
+    let spited = this.postForm.value.category.split('-')
+
+    const postData: Post = {
+      title: this.postForm.value.title,
+      permalink: this.postForm.value.permalink,
+      category: {
+        categoryId: spited[0],
+        category: spited[1]
+      },
+      postImagPath: '',
+      excerpt: this.postForm.value.excerpt,
+      content: this.postForm.value.content,
+      isFeatured: false,
+      views: '0',
+      status: 'new',
+      createdAt: new Date()
+    }
+    this.postService.uploadImage(this.selectImage, postData)
+  }
 
 }
