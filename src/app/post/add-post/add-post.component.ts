@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Post } from 'src/app/model/post';
 import { CategoryService } from 'src/app/service/category.service';
 import { PostService } from 'src/app/service/post.service';
@@ -15,22 +16,48 @@ export class AddPostComponent implements OnInit {
   imgSrc: string = '../../../assets/placeholder-image.jpg'
   selectImage: any
   categories: Array<any> | undefined
-  postForm: FormGroup
+  postForm: FormGroup | any;
+  post: any
+  formStatus: string = 'Add'
+  postId: string = ''
+  RemoveFeatured: any;
+  MarkFeatured: any;
 
   constructor(
     private categoryService: CategoryService,
     private fb: FormBuilder,
-    private postService: PostService
+    private postService: PostService,
+    private route: ActivatedRoute
   ) {
 
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(10)]],
       permalink: ['', Validators.required],
       excerpt: ['', [Validators.required, Validators.minLength(10)]],
-      category: [''],
+      category: ['', Validators.required],
       postImage: ['', Validators.required],
       content: ['', Validators.required]
-    })
+    });
+
+    this.route.queryParams.subscribe(params => {
+      if (params.id === undefined) return
+      this.postService.getPostById(params.id).subscribe(post => {
+        this.post = post;
+        this.postId = params.id;
+        this.formStatus = 'Edit';
+
+        this.postForm.patchValue({
+          title: this.post.title,
+          permalink: this.post.permalink,
+          excerpt: this.post.excerpt,
+          category: this.post.category.categoryId + '-' + this.post.category.category,
+          postImage: '',
+          content: this.post.content
+        });
+
+        this.imgSrc = this.post.postImagPath
+      });
+    });
 
   }
 
@@ -40,7 +67,6 @@ export class AddPostComponent implements OnInit {
     this.categoryService.loadData().subscribe(val => {
       this.categories = val
     })
-
   }
 
 
@@ -80,11 +106,15 @@ export class AddPostComponent implements OnInit {
       excerpt: this.postForm.value.excerpt,
       content: this.postForm.value.content,
       isFeatured: false,
-      views: '0',
+      views: 0,
       status: 'new',
       createdAt: new Date()
     }
-    this.postService.uploadImage(this.selectImage, postData)
+    this.postService.uploadImage(this.selectImage, postData, this.formStatus, this.postId)
+    this.postForm.reset()
+    this.imgSrc = '../../../assets/placeholder-image.jpg'
   }
+
+
 
 }

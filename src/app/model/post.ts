@@ -9,7 +9,7 @@ export interface Post {
     excerpt: string,
     content: string,
     isFeatured: boolean,
-    views: string,
+    views: number,
     status: string,
     createdAt: Date
 }

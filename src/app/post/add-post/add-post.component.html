@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 text-center">
-            <h3 class="text-theme-primary">Add new post</h3>
-            <p class="mb-5">You can add your new post here</p>
+            <h3 class="text-theme-primary">{{formStatus}} new post</h3>
+            <p class="mb-5">You can {{formStatus}} your new post here</p>
         </div>
     </div>
     <form [formGroup]="postForm" (ngSubmit)="FormSubmit()">
@@ -14,7 +14,7 @@
                             <label>Title</label>
                             <input formControlName="title" class="form-control" type="text"
                                 (keyup)="onTitleChanged($event)"
-                                [ngClass]="{'is-invalid':fc.title.touched && fc.title.invalid}">
+                                [ngClass]="{'is-invalid':fc?.title?.touched && fc.title.invalid}">
                             <div *ngIf="fc.title.errors?.required">
                                 <div class="alert alert-danger" *ngIf="fc.title.touched && fc.title.invalid">
                                     Title is required.
@@ -101,8 +101,10 @@
                 </div>
             </div>
             <div class="col-md-12 text-center mb-5 mt-5">
-                <button [disabled]="postForm.invalid" class="btn btn-info bg-theme-background">Save Post</button>
+                <button [disabled]="postForm.invalid" class="btn btn-info bg-theme-background">{{formStatus}}
+                    Post</button>
                 <button routerLink="/post" class="btn btn-dark bg-theme-background ml-5">Go Back</button>
+
             </div>
         </div>
     </form>
