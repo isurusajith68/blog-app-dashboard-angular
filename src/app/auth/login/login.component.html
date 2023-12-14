@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card p-5 shadow-background bg-theme-background">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h3 class="text-theme-primary">Login</h3>
+                        <p>Please login to your admin account to post a new blog post</p>
+                    </div>
+                    <form #loginForm=ngForm (ngSubmit)="onSubmit(loginForm.value)">
+                        <div class="form-group">
+                            <input name="email" email ngModel type="email" #Email="ngModel" class="form-control"
+                                required placeholder="Enter your email"
+                                [ngClass]="{'is-invalid' : Email.touched && Email.invalid}">
+                            <div class="alert alert-danger" *ngIf="Email.touched && Email.invalid">
+                                <div *ngIf="Email.errors?.required"> Email cannot be empty</div>
+                                <div *ngIf="Email.errors?.email"> Please Enter Valid Email <address></address>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input name="password" ngModel type="password" #Password="ngModel" class="form-control"
+                                required placeholder="Enter your password"
+                                [ngClass]="{'is-invalid' : Password.touched && Password.invalid}">
+                            <div class="alert alert-danger" *ngIf="Password.touched && Password.invalid">Password cannot
+                                be empty
+                            </div>
+                        </div>
+                        <button class="btn btn-info btn-block btn-theme" [disabled]="loginForm.invalid">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

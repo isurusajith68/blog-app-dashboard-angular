@@ -20,6 +20,7 @@ import { PostComponent } from './post/post/post.component';
 import { AddPostComponent } from './post/add-post/add-post.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './auth/login/login.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     CategoriesComponent,
     PostComponent,
     AddPostComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
