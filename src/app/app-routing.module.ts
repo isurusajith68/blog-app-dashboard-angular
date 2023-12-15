@@ -5,12 +5,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PostComponent } from './post/post/post.component';
 import { AddPostComponent } from './post/add-post/add-post.component';
 import { LoginComponent } from './auth/login/login.component';
+import { AuthGuard } from './service/auth.guard';
 
 const routes: Routes = [
-  { path: "", component: DashboardComponent },
-  { path: "category", component: CategoriesComponent },
-  { path: "post", component: PostComponent },
-  { path: "post/add", component: AddPostComponent },
+  { path: "", component: DashboardComponent,canActivate: [AuthGuard] },
+  { path: "category", component: CategoriesComponent, canActivate: [AuthGuard] },
+  { path: "post", component: PostComponent, canActivate: [AuthGuard] },
+  { path: "post/add", component: AddPostComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent }
 ];
 
